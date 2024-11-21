@@ -9,7 +9,9 @@
 (defmethod panels :default [] [:div "No panel found for this route."])
 
 (def routes
-  (atom ["/" {""      :home}]))
+  (atom ["/" {""          :home
+              "raceplan"  :home
+              "raceplan/" :home}]))
 
 (defn parse
   [url]
@@ -22,8 +24,6 @@
 (defn dispatch
   [route]
   (let [panel (keyword (str (name (:handler route)) "-panel"))]
-    (js/console.log " PANEL ")
-    (je/console.log panel)
     (re-frame/dispatch [::events/set-active-panel panel])))
 
 (defonce history
