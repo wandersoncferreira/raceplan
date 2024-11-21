@@ -44,6 +44,7 @@
   (->> splits
        (map (juxt second first))
        (map (partial apply -))
+       (filter #(> % 0))
        (apply +)))
 
 (defn dist-diff
