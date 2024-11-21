@@ -1,0 +1,33 @@
+{:nrepl {:port 8777}
+
+ :jvm-opts ["-Xmx1G"]
+
+ :source-paths ["src" "test"]
+
+ :dependencies
+ [[reagent "1.1.1"]
+  [re-frame "1.4.2"]
+  [bidi "2.1.6"]
+  [day8.re-frame/http-fx "0.2.4"]
+  [clj-commons/pushy "0.3.10"]
+
+  [binaryage/devtools "1.0.6"]
+  [cider/cider-nrepl "0.44.0"]]
+
+ :dev-http
+ {8280 "resources/public"}
+
+ :builds
+ {:app
+  {:target     :browser
+   :output-dir "resources/public/js/compiled"
+   :asset-path "/js/compiled"
+   :modules
+   {:app {:init-fn raceplan.core/init}}
+   :devtools
+   {:preloads []}
+   :dev
+   {:compiler-options {:closure-defines { }
+                       :devcards true}}
+   :release
+   {:compiler-options {:optimizations :simple}}}}}
