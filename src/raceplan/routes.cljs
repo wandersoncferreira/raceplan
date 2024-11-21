@@ -22,6 +22,8 @@
 (defn dispatch
   [route]
   (let [panel (keyword (str (name (:handler route)) "-panel"))]
+    (js/console.log " PANEL ")
+    (je/console.log panel)
     (re-frame/dispatch [::events/set-active-panel panel])))
 
 (defonce history
