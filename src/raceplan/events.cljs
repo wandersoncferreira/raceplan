@@ -43,7 +43,20 @@
  ::del-row-number
  (fn [db [_ val]]
    (let [{:keys [splits]} db
-         new-splits (dissoc splits (str val))]
+         new-splits (->> (dissoc splits (str val))
+                         keys
+                         (map
+                          (fn [k]
+                            (let [intk (js/parseInt k)]
+                              (if (> intk val)
+                                {(str (dec intk))
+                                 (reduce
+                                  (fn [acc [ik v]]
+                                    (assoc acc (str (dec intk) (second ik)) v))
+                                  {}
+                                  (get splits k))}
+                                {k (get splits k)}))))
+                         (into {}))]
      (-> db
          (update :row-number dec)
          (assoc :splits new-splits)))))
