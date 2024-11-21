@@ -73,13 +73,14 @@
     [:div
      [:table {:cellpadding "4"}
       [:tbody
-       [:tr {:style {:font-weight "bold"}}
-        [:td "KM Inicial"]
-        [:td "KM Final"]
-        [:td "Minuto"]
-        [:td "Segundos"]
-        [:td "Nova Linha"]
-        [:td "Remover Linha"]]
+       [:tr {:style {:font-weight "bold"
+                     :white-space "pre-wrap"}}
+        [:td "KM\nInicial"]
+        [:td "KM\nFinal"]
+        [:td "Pace\n(Minutos)"]
+        [:td "Pace\n(Segundos)"]
+        [:td {:style {:padding-left "2em"}} "Novo\nSplit"]
+        [:td {:style {:padding-left "2em"}} "Remover\nSplit"]]
        (doall
         (for [r (range @row-number)]
           [:tr {:key r}
@@ -100,7 +101,10 @@
                                       :margin-left "2em"}
                               :on-click #(re-frame/dispatch [::events/del-row-number r])}]]]))]]
      [:div
-      [:span (gstring/format "Tempo Total (%d KM): " tdistance)]
+      [:br]
+      [:br]
+      [:br]
+      [:span {:style {:font-weight "bold"}} (gstring/format "Tempo Total (%d KM): " tdistance)]
       [:span (gstring/format "%d Horas %d Minutos e %s Segundos"
                              (.get ttime "hours")
                              (.get ttime "minutes")
