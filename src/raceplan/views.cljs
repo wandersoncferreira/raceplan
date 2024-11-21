@@ -78,8 +78,8 @@
                      :white-space "pre-wrap"}}
         [:td "KM\nInicial"]
         [:td "KM\nFinal"]
-        [:td "Pace\n(Minutos)"]
-        [:td "Pace\n(Segundos)"]
+        [:td "Pace Médio\n(Minutos)"]
+        [:td "Pace Médio\n(Segundos)"]
         [:td {:style {:padding-left "2em"}} "Novo\nSplit"]
         [:td {:style {:padding-left "2em"}} "Remover\nSplit"]]
        (doall
