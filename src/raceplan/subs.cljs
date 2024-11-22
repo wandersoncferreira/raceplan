@@ -21,3 +21,8 @@
  ::splits
  (fn [db _]
    (:splits db)))
+
+(re-frame/reg-sub
+ ::toggle-pace-segmento
+ (fn [db _]
+   (:toggle-pace-segmento db)))

@@ -40,3 +40,8 @@
      (-> db
          (update :row-number dec)
          (assoc :splits new-splits)))))
+
+(re-frame/reg-event-db
+ ::toggle-pace-segmento
+ (fn [db _]
+   (update db :toggle-pace-segmento not)))
