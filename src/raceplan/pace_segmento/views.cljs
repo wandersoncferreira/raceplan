@@ -33,6 +33,7 @@
   (->> splits
        (map (juxt second first))
        (map (partial apply -))
+       (filter >)
        (apply +)))
 
 (defn dist-diff
