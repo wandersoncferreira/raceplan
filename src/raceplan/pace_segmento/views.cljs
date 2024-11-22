@@ -3,11 +3,10 @@
    [re-frame.core :as re-frame]
    [goog.string :as gstring]
    [goog.string.format]
-   [raceplan.events :as events]
    ["dayjs" :as dayjs]
    ["dayjs/plugin/duration" :as duration]
-   [raceplan.routes :as routes]
-   [raceplan.subs :as subs]))
+   [raceplan.pace-segmento.events :as events]
+   [raceplan.pace-segmento.subs :as subs]))
 
 (dayjs/extend duration)
 
@@ -20,20 +19,10 @@
     (let [split (get splits k)
           default-split (int-array [0 0 0 0])]
       (doseq [entry split]
-        (let [index (first entry)
-              value (second entry)]
-          (cond
-            (= (second index) "0")
-            (aset default-split 0 (js/parseInt value))
-
-            (= (second index) "1")
-            (aset default-split 1 (js/parseInt value))
-
-            (= (second index) "2")
-            (aset default-split 2 (js/parseInt value))
-
-            (= (second index) "3")
-            (aset default-split 3 (js/parseInt value)))))
+        (let [index-full (first entry)
+              index (-> index-full second js/parseInt)
+              value (js/parseInt (second entry))]
+          (aset default-split index value)))
       [(first default-split)
        (second default-split)
        (to-seconds (nth default-split 2)
@@ -61,9 +50,6 @@
         (fn [total-dur dur]
           (.add total-dur dur))
         (dayjs/duration 0 "seconds"))))
-
-(enable-console-print!)
-
 
 (defn view []
   (let [splits (re-frame/subscribe [::subs/splits])
