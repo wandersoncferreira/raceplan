@@ -33,7 +33,7 @@
   (->> splits
        (map (juxt second first))
        (map (partial apply -))
-       (filter >)
+       (filter #(> % 0))
        (apply +)))
 
 (defn dist-diff
@@ -51,6 +51,12 @@
         (fn [total-dur dur]
           (.add total-dur dur))
         (dayjs/duration 0 "seconds"))))
+
+(defn pace-medio
+  [total-seconds total-distance]
+  (let [med-secs (/ total-seconds total-distance)
+        med-dur (dayjs/duration med-secs "seconds")]
+    med-dur))
 
 (defn view []
   (let [splits (re-frame/subscribe [::subs/splits])
@@ -93,7 +99,13 @@
       [:br]
       [:br]
       [:span {:style {:font-weight "bold"}} (gstring/format "Tempo Total (%d KM): " tdistance)]
+      [:br]
       [:span (gstring/format "%d Horas %d Minutos e %s Segundos"
                              (.get ttime "hours")
                              (.get ttime "minutes")
-                             (.get ttime "seconds"))]]]))
+                             (.get ttime "seconds"))]
+      [:br]
+      (let [mpace (pace-medio (.asSeconds ttime) tdistance)]
+        [:span (gstring/format "Pace Médio de %d Minutos e %s Segundos"
+                               (.get mpace "minutes")
+                               (.get mpace "seconds"))])]]))
